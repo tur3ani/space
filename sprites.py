@@ -1,7 +1,6 @@
 from os.path import join
 import pygame
-from random import  randint
-
+from random import randint, uniform
 
 WINDOW_WIDTH, WINDOW_HEIGHT = 1280, 720
 class Player(pygame.sprite.Sprite):
@@ -54,7 +53,7 @@ class Laser(pygame.sprite.Sprite):
         self.rect = self.image.get_frect(midbottom = pos)
     def update(self,dt):
         self.rect.centery -= 400 * dt
-        if self.rect.bottom > 0:
+        if self.rect.bottom < 0:
             self.kill()
 
 class Meteor(pygame.sprite.Sprite):
@@ -64,8 +63,10 @@ class Meteor(pygame.sprite.Sprite):
         self.rect = self.image.get_frect(center= pos)
         self.start_time = pygame.time.get_ticks()
         self.lifetime = 3000
+        self.direction = pygame.Vector2(uniform( -0.5,0.5),1)
+        self.speed = 400
     def update(self, dt):
-        self.rect.centery += 400 * dt
+        self.rect.center += self.direction * self.speed * dt
         if pygame.time.get_ticks() - self.start_time >= self.lifetime:
             self.kill()
 
