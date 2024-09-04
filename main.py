@@ -22,10 +22,6 @@ meteorite_surf = pygame.image.load(join('images', 'meteor.png')).convert_alpha()
 laser_surf = pygame.image.load(join('images', 'laser.png')).convert_alpha()
 
 
-# Create rectangles
-meteorite_rect = meteorite_surf.get_rect(center=(WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2))
-laser_rect = laser_surf.get_rect(center=(WINDOW_WIDTH - 20, WINDOW_HEIGHT - 20))
-
 # Generate star positions
 star_surf = pygame.image.load(join('images', 'star.png')).convert_alpha()
 for i in range(20):
@@ -45,15 +41,15 @@ while True:
             pygame.quit()
             sys.exit()
         if event.type == meteor_event:
-            print("create meteor")
+            x , y = randint(0,WINDOW_WIDTH), randint(-200, -100)
+            sprites.Meteor(meteorite_surf, (x,y), all_sprites)
     # Draw the screen
     display.fill((169, 169, 169))  # darkgray
     
 
 
 
-    display.blit(meteorite_surf, meteorite_rect)
-    display.blit(laser_surf, laser_rect)
+
     all_sprites.draw(display)
     all_sprites.update(dt)
     pygame.display.update()

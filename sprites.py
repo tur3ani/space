@@ -13,7 +13,7 @@ class Player(pygame.sprite.Sprite):
         self.speed = 500
         self.can_shoot = True
         self.laser_shoot_time = 0
-        self.laser_cooldown = 1000
+        self.laser_cooldown = 400
         self.laser_surf = laser_surf
     def laser_shoot(self):
         if not self.can_shoot:
@@ -54,5 +54,14 @@ class Laser(pygame.sprite.Sprite):
         self.rect = self.image.get_frect(midbottom = pos)
     def update(self,dt):
         self.rect.centery -= 400 * dt
+
+class Meteor(pygame.sprite.Sprite):
+    def __init__(self,surf, pos,groups):
+        super().__init__(groups)
+        self.image = surf
+        self.rect = self.image.get_frect(center= pos)
+
+    def update(self, dt):
+        self.rect.centery += 400 * dt
 
 
