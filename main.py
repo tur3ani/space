@@ -3,7 +3,7 @@ from os.path import join
 from random import randint
 import sprites
 import pygame
-from sprites import Player ,all_sprites,meteor_sprite,laser_sprite
+from sprites import Player ,all_sprites,meteor_sprite,laser_sprite, display_score, collisions
 
 
 # General setup
@@ -23,8 +23,9 @@ clock = pygame.time.Clock()
 meteorite_surf = pygame.image.load(join('images', 'meteor.png')).convert_alpha()
 laser_surf = pygame.image.load(join('images', 'laser.png')).convert_alpha()
 star_surf = pygame.image.load(join('images', 'star.png')).convert_alpha()
-
+explosion_frames = [pygame.image.load(join('images','explosion',f'{i}.png')) for i in range(21) ]
 player = Player(all_sprites, laser_surf)
+
 
 # Generate star positions
 
@@ -35,18 +36,6 @@ for i in range(20):
 # custom event --> metorite event
 meteor_event = pygame.event.custom_type()
 pygame.time.set_timer(meteor_event,500)
-
-
-
-# functions
-def collisions():
-    collision_sprites = pygame.sprite.spritecollide(player, meteor_sprite, True)
-    
-    for laser in laser_sprite:
-         collided_sprites = pygame.sprite.spritecollide(laser, meteor_sprite, True)
-         if collided_sprites:
-            laser.kill()
-         
 
 
 
@@ -68,8 +57,8 @@ while True:
     # Draw the screen
     display.fill((169, 169, 169))  # darkgray
     
-    collisions()    
-
+    collisions(player, explosion_frames)    
+    display_score(display)
 
     all_sprites.draw(display)
     all_sprites.update(dt)
