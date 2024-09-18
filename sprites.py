@@ -3,6 +3,13 @@ import pygame
 from random import randint, uniform
 
 WINDOW_WIDTH, WINDOW_HEIGHT = 1280, 720
+
+all_sprites = pygame.sprite.Group()
+meteor_sprite = pygame.sprite.Group()
+laser_sprite = pygame.sprite.Group()
+
+
+
 class Player(pygame.sprite.Sprite):
     def __init__(self, groups, laser_surf):
         super().__init__(groups)
@@ -33,7 +40,7 @@ class Player(pygame.sprite.Sprite):
         self.rect.center += self.direction * self.speed * dt
         recent_keys = pygame.key.get_pressed()
         if recent_keys[pygame.K_SPACE] and self.can_shoot:
-            Laser(self.laser_surf, self.rect.midtop, self.groups())
+            Laser(self.laser_surf, self.rect.midtop, (all_sprites, laser_sprite))
             self.can_shoot = False
             self.laser_shoot_time = pygame.time.get_ticks()
         self.laser_shoot()
@@ -69,4 +76,5 @@ class Meteor(pygame.sprite.Sprite):
         self.rect.center += self.direction * self.speed * dt
         if pygame.time.get_ticks() - self.start_time >= self.lifetime:
             self.kill()
+
 
